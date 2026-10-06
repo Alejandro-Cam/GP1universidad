@@ -108,13 +108,13 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jmiFormularioAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiFormularioAlumnoActionPerformed
-        Escritorio.removeAll(); // Limpia ventanas previas del escritorio[cite: 1, 2]
-        Escritorio.repaint();   // Redibuja el escritorio[cite: 1, 2]
+        Escritorio.removeAll(); // Limpia ventanas 
+        Escritorio.repaint();   // Redibuja el escritorio
 
-        VistaAlumno va = new VistaAlumno(); // Instancia la vista[cite: 1, 2]
-        va.setVisible(true);                 // Hace visible la ventana[cite: 1, 2]
-        Escritorio.add(va);                  // La agrega al JDesktopPane[cite: 1, 2]
-        Escritorio.moveToFront(va);          // La trae al frente[cite: 1, 2]
+        VistaAlumno va = new VistaAlumno(); // Instancia la vista
+        va.setVisible(true);                 // Hace visible la ventana
+        Escritorio.add(va);                  // La agrega al JDesktopPane
+        Escritorio.moveToFront(va);          // La trae al frente
 
     }//GEN-LAST:event_jmiFormularioAlumnoActionPerformed
 

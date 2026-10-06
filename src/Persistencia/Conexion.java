@@ -1,0 +1,36 @@
+
+package Persistencia;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
+
+public class Conexion {
+    //atributos para la coneccion
+    private static final String url = "jdbc:mariadb://localhost:3306/gp1ulp";
+    private static final String usuario = "root";
+    private static final String password = "";
+    private static Connection conexion = null;
+    
+    //constructor vacio
+    public Conexion() {
+    }
+    
+    public static Connection getConexion() {
+        if (conexion == null) {
+            try {
+                // Carga del driver MariaDB según la Guía 4
+                Class.forName("org.mariadb.jdbc.Driver");
+                conexion = DriverManager.getConnection(url, usuario, password);
+            } catch (ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null, "Error al cargar el driver MariaDB: " + e.getMessage());
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error de conexión a la BD: " + e.getMessage());
+            }
+        }
+        return conexion;
+    }
+}
+

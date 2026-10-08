@@ -1,10 +1,13 @@
 package Vistas;
 
 import Entidades.Alumno;
+import Entidades.Inscripcion;
 import Entidades.Materia;
 import Persistencia.AlumnoData;
 import Persistencia.InscripcionData;
 import Persistencia.MateriaData;
+import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class VistaInscripciones extends javax.swing.JInternalFrame {
@@ -12,7 +15,8 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
     private AlumnoData alumnoData;
     private MateriaData materiaData;
     private InscripcionData inscripcionData;
-
+    private List<Alumno> alumnos;
+    private List<Materia> materias;
 
     public VistaInscripciones() {
         initComponents();
@@ -20,7 +24,7 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
         alumnoData = new AlumnoData();
         materiaData = new MateriaData();
         inscripcionData = new InscripcionData();
-        
+
         cargarAlumno();
         cargarMateria();
     }
@@ -64,6 +68,11 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
 
         btnInscribir.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         btnInscribir.setText("Inscribir");
+        btnInscribir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInscribirActionPerformed(evt);
+            }
+        });
 
         btnAnular.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         btnAnular.setText("Anular");
@@ -151,13 +160,71 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //cargamos alumnos desde la base de datos con listarAlumno
+    private void cargarAlumno() {
+        cmbAlumno.removeAllItems();
+
+        alumnos = alumnoData.listarAlumnos();
+
+        for (Alumno alumno : alumnos) {
+            cmbAlumno.addItem(alumno.getApellido() + " " + alumno.getNombre() + " DNI: " + alumno.getDni());
+        }
+    }
+
+    //cargamos materias de base de datos
+    private void cargarMateria() {
+        cmbMateria.removeAllItems();
+
+        materias = materiaData.listarMaterias();
+
+        for (Materia materia : materias) {
+            cmbMateria.addItem(materia.toString());
+        }
+    }
     private void cmbAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAlumnoActionPerformed
-        
+
     }//GEN-LAST:event_cmbAlumnoActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInscribirActionPerformed
+
+        try {
+            //obtenemos atributos para crear Inscripcion
+            int indiceAlumno = cmbAlumno.getSelectedIndex();
+            int indiceMateria = cmbMateria.getSelectedIndex();
+
+            Alumno alumno = alumnos.get(indiceAlumno);
+            Materia materia = materias.get(indiceMateria);
+            int anioLectivo = Integer.parseInt(txtAnioLectivo.getText());
+            int cuatrimestre = Integer.parseInt(txtCuatrimestre.getText());
+
+            //si no selecciona alumno o materia
+            if (alumno == null || materia == null) {
+                JOptionPane.showMessageDialog(this, "Debe seleccionar un alumno y materia");
+                return;
+            }
+
+            //si escribe un cuatrimestre mal
+            if (cuatrimestre != 1 && cuatrimestre != 2) {
+                JOptionPane.showMessageDialog(this, "El cuatrimestre debe ser 1 o 2");
+                return;
+            }
+
+            //creamos inscripcion sin nota y asistencia 0
+            Inscripcion inscripcion = new Inscripcion(alumno, materia, anioLectivo, cuatrimestre, null, 0);
+
+            //agregamos inscripcion en la base de datos
+            inscripcionData.guardarInscripcion(inscripcion);
+
+        } catch (NumberFormatException e) {
+            //solo si escribe letras o double en año y cuatrimestre
+            JOptionPane.showMessageDialog(this, "Debe ingresar numeros enteros en año lectivo y cuatrimestre");
+        }
+
+    }//GEN-LAST:event_btnInscribirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -174,23 +241,5 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtAnioLectivo;
     private javax.swing.JTextField txtCuatrimestre;
     // End of variables declaration//GEN-END:variables
-    
-    //cargamos alumnos desde la base de datos con listarAlumno
-    private void cargarAlumno() {
-        cmbAlumno.removeAllItems();
-        
-       for (Alumno alumno : alumnoData.listarAlumnos()) {
-        cmbAlumno.addItem(alumno.getApellido() + " " + alumno.getNombre() + " DNI: " + alumno.getDni());
-        }
-    }
-    
-    //cargamos materias de base de datos
-    private void cargarMateria() {
-        cmbMateria.removeAllItems();
-        
-        for (Materia materia : materiaData.listarMaterias()) {
-            cmbMateria.addItem(materia.toString());
-            
-        }
-    }
+
 }

@@ -1,5 +1,7 @@
 package Vistas;
 
+import Entidades.Alumno;
+import Entidades.Materia;
 import Persistencia.AlumnoData;
 import Persistencia.InscripcionData;
 import Persistencia.MateriaData;
@@ -11,7 +13,6 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
     private MateriaData materiaData;
     private InscripcionData inscripcionData;
 
-    private DefaultTableModel modeloTabla;
 
     public VistaInscripciones() {
         initComponents();
@@ -20,7 +21,8 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
         materiaData = new MateriaData();
         inscripcionData = new InscripcionData();
         
-        
+        cargarAlumno();
+        cargarMateria();
     }
 
     @SuppressWarnings("unchecked")
@@ -101,18 +103,19 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
                             .addComponent(lblAnioLectivo)
                             .addComponent(lblCuatrimestre))
                         .addGap(97, 97, 97)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cmbAlumno, 0, 242, Short.MAX_VALUE)
-                            .addComponent(cmbMateria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtAnioLectivo)
-                            .addComponent(txtCuatrimestre))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtAnioLectivo, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                                .addComponent(txtCuatrimestre))
+                            .addComponent(cmbAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbMateria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(124, 124, 124))
             .addGroup(layout.createSequentialGroup()
                 .addGap(74, 74, 74)
                 .addComponent(btnInscribir)
                 .addGap(98, 98, 98)
                 .addComponent(btnAnular)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 215, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(63, 63, 63))
         );
@@ -171,4 +174,23 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtAnioLectivo;
     private javax.swing.JTextField txtCuatrimestre;
     // End of variables declaration//GEN-END:variables
+    
+    //cargamos alumnos desde la base de datos con listarAlumno
+    private void cargarAlumno() {
+        cmbAlumno.removeAllItems();
+        
+       for (Alumno alumno : alumnoData.listarAlumnos()) {
+        cmbAlumno.addItem(alumno.getApellido() + " " + alumno.getNombre() + " DNI: " + alumno.getDni());
+        }
+    }
+    
+    //cargamos materias de base de datos
+    private void cargarMateria() {
+        cmbMateria.removeAllItems();
+        
+        for (Materia materia : materiaData.listarMaterias()) {
+            cmbMateria.addItem(materia.toString());
+            
+        }
+    }
 }

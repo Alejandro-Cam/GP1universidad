@@ -101,7 +101,13 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
 
         txtCuatrimestre.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
-        btnBuscar.setText("jButton1");
+        btnBuscar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -133,7 +139,7 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
                 .addGap(98, 98, 98)
                 .addComponent(btnAnular)
                 .addGap(50, 50, 50)
-                .addComponent(btnBuscar)
+                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(63, 63, 63))
@@ -159,12 +165,12 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCuatrimestre)
                     .addComponent(txtCuatrimestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 188, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnInscribir, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAnular, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar))
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(52, 52, 52))
         );
 
@@ -244,7 +250,8 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
             int indiceAlumno = cmbAlumno.getSelectedIndex();
             int indiceMateria = cmbMateria.getSelectedIndex();
 
-            if (indiceAlumno == -1 || indiceMateria == -1) {JOptionPane.showMessageDialog(this,"Debe seleccionar un alumno y una materia.");
+            if (indiceAlumno == -1 || indiceMateria == -1) {
+                JOptionPane.showMessageDialog(this,"Debe seleccionar un alumno y una materia.");
                 return;
             }
 
@@ -297,6 +304,10 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
         } catch (NumberFormatException e) {JOptionPane.showMessageDialog(this,"El año lectivo y el cuatrimestre deben ser números enteros.");
         }
     }//GEN-LAST:event_btnAnularActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

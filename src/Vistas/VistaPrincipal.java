@@ -74,6 +74,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         jmiManejoInscripciones.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jmiManejoInscripciones.setText("Manejo de Inscripciones");
+        jmiManejoInscripciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiManejoInscripcionesActionPerformed(evt);
+            }
+        });
         jmnAdministracion.add(jmiManejoInscripciones);
 
         jmiManipulacionNotas.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -130,6 +135,17 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         Escritorio.moveToFront(vm);
     }//GEN-LAST:event_jmiFormularioMateriaActionPerformed
+
+    private void jmiManejoInscripcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiManejoInscripcionesActionPerformed
+        Escritorio.removeAll();
+        Escritorio.repaint();
+        
+        VistaInscripciones vi = new VistaInscripciones();
+        vi.setVisible(true);
+        
+        Escritorio.add(vi);
+        Escritorio.moveToFront(vi);
+    }//GEN-LAST:event_jmiManejoInscripcionesActionPerformed
 
     /**
      * @param args the command line arguments

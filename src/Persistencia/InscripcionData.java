@@ -1,4 +1,3 @@
-
 package Persistencia;
 
 import Entidades.Alumno;
@@ -24,7 +23,6 @@ public class InscripcionData {
     }
 
     // INSERT - Guardar inscripción
-
     public void guardarInscripcion(Inscripcion i) {
 
         String sql = "INSERT INTO inscripcion "
@@ -79,7 +77,6 @@ public class InscripcionData {
     }
 
     // SELECT - Buscar inscripción por ID
-
     public Inscripcion buscarInscripcion(int id) {
 
         Inscripcion inscripcion = null;
@@ -127,8 +124,42 @@ public class InscripcionData {
         return inscripcion;
     }
 
-    // SELECT - Listar todas las inscripciones
+    //SELEC buscar inscripciones por datos
+    public Inscripcion buscarInscripcionPorDatos(
+            int idAlumno, int idMateria,
+            int anioLectivo, int cuatrimestre) {
 
+        Inscripcion encontrada = null;
+
+        String sql = "SELECT * FROM inscripcion "
+                + "WHERE idAlumno = ? AND idMateria = ? "
+                + "AND anioLectivo = ? AND cuatrimestre = ?";
+
+        try {
+            PreparedStatement ps = conexion.prepareStatement(sql);
+            ps.setInt(1, idAlumno);
+            ps.setInt(2, idMateria);
+            ps.setInt(3, anioLectivo);
+            ps.setInt(4, cuatrimestre);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                encontrada = buscarInscripcion(rs.getInt("idInscripcion"));
+            }
+
+            ps.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Error al buscar inscripción: " + ex.getMessage());
+        }
+
+        return encontrada;
+    }
+
+
+    // SELECT - Listar todas las inscripciones
     public List<Inscripcion> listarInscripciones() {
 
         List<Inscripcion> inscripciones = new ArrayList<>();
@@ -184,7 +215,6 @@ public class InscripcionData {
     }
 
     // SELECT - Buscar inscripciones de un alumno
-
     public List<Inscripcion> listarInscripcionesPorAlumno(int idAlumno) {
 
         List<Inscripcion> inscripciones = new ArrayList<>();
@@ -243,7 +273,6 @@ public class InscripcionData {
     }
 
     // SELECT - Buscar alumnos inscriptos en una materia
-
     public List<Inscripcion> listarInscripcionesPorMateria(int idMateria) {
 
         List<Inscripcion> inscripciones = new ArrayList<>();
@@ -302,7 +331,6 @@ public class InscripcionData {
     }
 
     // UPDATE - Modificar inscripción
-
     public void modificarInscripcion(Inscripcion i) {
 
         String sql = "UPDATE inscripcion SET "
@@ -355,7 +383,6 @@ public class InscripcionData {
     }
 
     // UPDATE - Registrar / modificar nota
-
     public void actualizarNota(int idInscripcion, double nota) {
 
         String sql = "UPDATE inscripcion "
@@ -392,7 +419,6 @@ public class InscripcionData {
     }
 
     // UPDATE - Registrar asistencia
-
     public void registrarAsistencia(int idInscripcion) {
 
         String sql = "UPDATE inscripcion "
@@ -437,7 +463,6 @@ public class InscripcionData {
     }
 
     // DELETE - Eliminar inscripción
-
     public void eliminarInscripcion(int id) {
 
         String sql = "DELETE FROM inscripcion "
@@ -472,7 +497,6 @@ public class InscripcionData {
     }
 
     // MÉTODOS AUXILIARES
-
     private Alumno buscarAlumno(int idAlumno) {
 
         Alumno alumno = null;
@@ -551,4 +575,3 @@ public class InscripcionData {
         return materia;
     }
 }
-    

@@ -35,6 +35,16 @@ public class Inscripcion {
         this.asistencia = asistencia;
     }
 
+    public Inscripcion(Alumno alumno, Materia materia, int anioLectivo, int cuatrimestre, int asistencia) {
+        this.alumno = alumno;
+        this.materia = materia;
+        this.anioLectivo = anioLectivo;
+        this.cuatrimestre = cuatrimestre;
+        this.asistencia = asistencia;
+    }
+    
+    
+
     public int getIdInscripcion() {
         return idInscripcion;
     }

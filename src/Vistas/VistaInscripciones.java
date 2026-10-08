@@ -45,6 +45,7 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
         txtAnioLectivo = new javax.swing.JTextField();
         lblCuatrimestre = new javax.swing.JLabel();
         txtCuatrimestre = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
 
         lblTitulo.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         lblTitulo.setText("Formulario de Inscripciones");
@@ -76,6 +77,11 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
 
         btnAnular.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         btnAnular.setText("Anular");
+        btnAnular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnularActionPerformed(evt);
+            }
+        });
 
         btnSalir.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         btnSalir.setText("Salir");
@@ -94,6 +100,8 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
         lblCuatrimestre.setText("Cuatrimestre:");
 
         txtCuatrimestre.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+
+        btnBuscar.setText("jButton1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -124,6 +132,8 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
                 .addComponent(btnInscribir)
                 .addGap(98, 98, 98)
                 .addComponent(btnAnular)
+                .addGap(50, 50, 50)
+                .addComponent(btnBuscar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(63, 63, 63))
@@ -153,7 +163,8 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnInscribir, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAnular, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar))
                 .addGap(52, 52, 52))
         );
 
@@ -226,9 +237,71 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnInscribirActionPerformed
 
+    private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
+
+        try {
+            // Validar que haya un alumno y una materia seleccionados
+            int indiceAlumno = cmbAlumno.getSelectedIndex();
+            int indiceMateria = cmbMateria.getSelectedIndex();
+
+            if (indiceAlumno == -1 || indiceMateria == -1) {JOptionPane.showMessageDialog(this,"Debe seleccionar un alumno y una materia.");
+                return;
+            }
+
+            //Obtener el alumno y la materia seleccionados
+            Alumno alumno = alumnos.get(indiceAlumno);
+            Materia materia = materias.get(indiceMateria);
+
+            //Obtener año lectivo y cuatrimestre
+            int anioLectivo = Integer.parseInt(txtAnioLectivo.getText());
+            int cuatrimestre = Integer.parseInt(txtCuatrimestre.getText());
+
+            if (cuatrimestre != 1 && cuatrimestre != 2) {
+                JOptionPane.showMessageDialog(this,
+                        "El cuatrimestre debe ser 1 o 2.");
+                return;
+            }
+
+            //Buscar la inscripción exacta
+            Inscripcion inscripcion = inscripcionData.buscarInscripcionPorDatos(
+                    alumno.getIdAlumno(),
+                    materia.getIdMateria(),
+                    anioLectivo,
+                    cuatrimestre
+            );
+
+            if (inscripcion == null) {
+                JOptionPane.showMessageDialog(this,"No existe una inscripción con esos datos.");
+                return;
+            }
+
+            //Pedir confirmación antes de eliminar
+            int respuesta = JOptionPane.showConfirmDialog(
+                    this,
+                    "¿Está seguro de anular esta inscripción?\n"
+                    + "Alumno: " + alumno.getApellido() + " " + alumno.getNombre()
+                    + "\nMateria: " + materia.getNombre()
+                    + "\nAño lectivo: " + anioLectivo
+                    + "\nCuatrimestre: " + cuatrimestre,
+                    "Confirmar anulación",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            //Eliminar solamente si confirma
+            if (respuesta == JOptionPane.YES_OPTION) {
+                inscripcionData.eliminarInscripcion(
+                        inscripcion.getIdInscripcion()
+                );
+            }
+
+        } catch (NumberFormatException e) {JOptionPane.showMessageDialog(this,"El año lectivo y el cuatrimestre deben ser números enteros.");
+        }
+    }//GEN-LAST:event_btnAnularActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnular;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnInscribir;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cmbAlumno;

@@ -22,6 +22,9 @@ public class VistaManipulacionNotas extends javax.swing.JInternalFrame {
         alumnoData = new AlumnoData();
         materiaData = new MateriaData();
         inscripcionData = new InscripcionData();
+        
+        //cargamos el jComboBOX
+        cargarAlumnos();
     }
 
     
@@ -48,6 +51,11 @@ public class VistaManipulacionNotas extends javax.swing.JInternalFrame {
 
         cmbAlumno.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         cmbAlumno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbAlumnoActionPerformed(evt);
+            }
+        });
 
         jtInscripciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -139,10 +147,27 @@ public class VistaManipulacionNotas extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    public void cargarAlumnos() {
+        //borramos los item por defecto
+        cmbAlumno.removeAllItems();
+        //usamos el metodo de AlumnoData
+        alumnos = alumnoData.listarAlumnos();
+        
+        //recorremos lista y agregamos los alumnos a cmb
+        for (Alumno a : alumnos) {
+            cmbAlumno.addItem(a.getApellido() + " " + a.getNombre() + " DNI: " + a.getDni());
+        }
+    }
+    
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void cmbAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAlumnoActionPerformed
+        
+        //cargarTablaInscripciones();
+    }//GEN-LAST:event_cmbAlumnoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -123,7 +123,7 @@ public class InscripcionData {
 
         return inscripcion;
     }
-
+    
     //SELEC buscar inscripciones por datos
     public Inscripcion buscarInscripcionPorDatos(
             int idAlumno, int idMateria,

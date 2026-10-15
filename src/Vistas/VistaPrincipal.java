@@ -97,6 +97,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         jmiAlumnosPorMaterias.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jmiAlumnosPorMaterias.setText("Alumnos por Materias");
+        jmiAlumnosPorMaterias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAlumnosPorMateriasActionPerformed(evt);
+            }
+        });
         jmnConsultas.add(jmiAlumnosPorMaterias);
 
         jMenuBar1.add(jmnConsultas);
@@ -162,6 +167,17 @@ public class VistaPrincipal extends javax.swing.JFrame {
         Escritorio.add(vn);
         Escritorio.moveToFront(vn);
     }//GEN-LAST:event_jmiManipulacionNotasActionPerformed
+
+    private void jmiAlumnosPorMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAlumnosPorMateriasActionPerformed
+        Escritorio.removeAll();
+        Escritorio.repaint();
+        
+        VistaAlumnosPorMateria vam = new VistaAlumnosPorMateria();
+        vam.setVisible(true);
+        
+        Escritorio.add(vam);
+        Escritorio.moveToFront(vam);
+    }//GEN-LAST:event_jmiAlumnosPorMateriasActionPerformed
 
     /**
      * @param args the command line arguments

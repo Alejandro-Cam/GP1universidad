@@ -11,77 +11,44 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class VistaInscripciones extends javax.swing.JInternalFrame {
-
+    
     private AlumnoData alumnoData;
     private MateriaData materiaData;
     private InscripcionData inscripcionData;
     private List<Alumno> alumnos;
     private List<Materia> materias;
-
+    
     public VistaInscripciones() {
         initComponents();
-
+        
         alumnoData = new AlumnoData();
         materiaData = new MateriaData();
         inscripcionData = new InscripcionData();
 
-        cargarAlumno();
-        cargarMateria();
-    }
+        //cargamos comboBox al entrar en la vista
+        cargarAlumnos();
 
+        //cargamos tabla al iniciar
+        cargarTablaMaterias();
+        
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        btnSalir = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
         lblAlumno = new javax.swing.JLabel();
         cmbAlumno = new javax.swing.JComboBox<>();
-        lblMateria = new javax.swing.JLabel();
-        cmbMateria = new javax.swing.JComboBox<>();
+        lblListadoMaterias = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         btnInscribir = new javax.swing.JButton();
         btnAnular = new javax.swing.JButton();
-        btnSalir = new javax.swing.JButton();
-        lblAnioLectivo = new javax.swing.JLabel();
-        txtAnioLectivo = new javax.swing.JTextField();
-        lblCuatrimestre = new javax.swing.JLabel();
-        txtCuatrimestre = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
-
-        lblTitulo.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        lblTitulo.setText("Formulario de Inscripciones");
-
-        lblAlumno.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lblAlumno.setText("Seleccione Alumno");
-
-        cmbAlumno.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        cmbAlumno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmbAlumno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbAlumnoActionPerformed(evt);
-            }
-        });
-
-        lblMateria.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lblMateria.setText("Seleccione Materia");
-
-        cmbMateria.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        cmbMateria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        btnInscribir.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
-        btnInscribir.setText("Inscribir");
-        btnInscribir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInscribirActionPerformed(evt);
-            }
-        });
-
-        btnAnular.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
-        btnAnular.setText("Anular");
-        btnAnular.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnularActionPerformed(evt);
-            }
-        });
+        rbtMateriaInscripta = new javax.swing.JRadioButton();
+        rbtMateriaNoInscrita = new javax.swing.JRadioButton();
 
         btnSalir.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         btnSalir.setText("Salir");
@@ -91,21 +58,72 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
             }
         });
 
-        lblAnioLectivo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lblAnioLectivo.setText("Año Lectivo:");
+        lblTitulo.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        lblTitulo.setText("Formulario de Inscripcion");
 
-        txtAnioLectivo.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lblAlumno.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
+        lblAlumno.setText("Seleccione un Alumno:");
 
-        lblCuatrimestre.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lblCuatrimestre.setText("Cuatrimestre:");
-
-        txtCuatrimestre.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-
-        btnBuscar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+        cmbAlumno.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
+        cmbAlumno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbAlumno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
+                cmbAlumnoActionPerformed(evt);
+            }
+        });
+
+        lblListadoMaterias.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lblListadoMaterias.setText("Listado de Materias");
+
+        jTable1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "ID Materia", "Nombre", "Año"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        btnInscribir.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btnInscribir.setText("Inscribir");
+
+        btnAnular.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btnAnular.setText("Anular Inscripcion");
+
+        buttonGroup1.add(rbtMateriaInscripta);
+        rbtMateriaInscripta.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        rbtMateriaInscripta.setSelected(true);
+        rbtMateriaInscripta.setText("Materias Inscriptas");
+        rbtMateriaInscripta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtMateriaInscriptaActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(rbtMateriaNoInscrita);
+        rbtMateriaNoInscrita.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        rbtMateriaNoInscrita.setText("Materias No Inscriptas");
+        rbtMateriaNoInscrita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtMateriaNoInscritaActionPerformed(evt);
             }
         });
 
@@ -114,216 +132,156 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(208, 208, 208)
-                        .addComponent(lblTitulo))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
+                .addGap(43, 43, 43)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblAlumno)
-                            .addComponent(lblMateria)
-                            .addComponent(lblAnioLectivo)
-                            .addComponent(lblCuatrimestre))
-                        .addGap(97, 97, 97)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(rbtMateriaInscripta)
+                                .addGap(227, 227, 227)
+                                .addComponent(rbtMateriaNoInscrita))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtAnioLectivo, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
-                                .addComponent(txtCuatrimestre))
-                            .addComponent(cmbAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbMateria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(124, 124, 124))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(btnInscribir)
-                .addGap(98, 98, 98)
-                .addComponent(btnAnular)
-                .addGap(50, 50, 50)
-                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63))
+                                .addComponent(jScrollPane1)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(lblAlumno)
+                                    .addGap(88, 88, 88)
+                                    .addComponent(cmbAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(225, 225, 225)
+                                    .addComponent(lblListadoMaterias))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(lblTitulo)
+                                    .addGap(100, 100, 100))))
+                        .addGap(0, 54, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnInscribir, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(104, 104, 104)
+                        .addComponent(btnAnular, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(23, 23, 23)
                 .addComponent(lblTitulo)
-                .addGap(61, 61, 61)
+                .addGap(66, 66, 66)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAlumno)
                     .addComponent(cmbAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addComponent(lblListadoMaterias)
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMateria)
-                    .addComponent(cmbMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblAnioLectivo)
-                    .addComponent(txtAnioLectivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCuatrimestre)
-                    .addComponent(txtCuatrimestre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnInscribir, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAnular, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52))
+                    .addComponent(rbtMateriaInscripta)
+                    .addComponent(rbtMateriaNoInscrita))
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnInscribir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAnular, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(47, 47, 47))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //cargamos alumnos desde la base de datos con listarAlumno
-    private void cargarAlumno() {
+    public void cargarAlumnos() {
+        //borramos los item por defecto
         cmbAlumno.removeAllItems();
-
+        //usamos el metodo de AlumnoData
         alumnos = alumnoData.listarAlumnos();
 
-        for (Alumno alumno : alumnos) {
-            cmbAlumno.addItem(alumno.getApellido() + " " + alumno.getNombre() + " DNI: " + alumno.getDni());
+        //recorremos lista y agregamos los alumnos a cmb
+        for (Alumno a : alumnos) {
+            cmbAlumno.addItem(a.getApellido() + " " + a.getNombre() + " DNI: " + a.getDni());
         }
     }
 
-    //cargamos materias de base de datos
-    private void cargarMateria() {
-        cmbMateria.removeAllItems();
+    //cargamos la tabla con las materias del alumno seleccionado
+    public void cargarTablaMaterias() {
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        modelo.setRowCount(0); //limpia las filas
 
+        //obtenemos alumno seleccionado en una variable
+        int indice = cmbAlumno.getSelectedIndex();
+
+        //validacion que no este seleccionado o  este vacio
+        if (indice == -1 || alumnos == null) {
+            return;
+        }
+        
+        Alumno alumnoSeleccionado = alumnos.get(indice);
+
+        //obtenemos todas las materias de la BD
         materias = materiaData.listarMaterias();
 
+        //obtenemos las inscripciones del alumno seleccionado
+        List<Inscripcion> inscripciones = inscripcionData.listarInscripcionesPorAlumno(alumnoSeleccionado.getIdAlumno());
+
+        //recorremos todas las materias
         for (Materia materia : materias) {
-            cmbMateria.addItem(materia.toString());
+            //creo booleano para distinguir las materias
+            boolean estaInscripto = false;
+
+            //comprobar si el alumno esta inscrito en la materia
+            for (Inscripcion inscripcione : inscripciones) {
+                //si la inscripcion coincide con el id materia esta inscripto
+                if (inscripcione.getMateria().getIdMateria() == materia.getIdMateria()) {
+                    //el booleano es true
+                    estaInscripto = true;
+                    break;
+                }
+            }
+            //cargamos la tabla segun el radio button seleccionad 
+            if (rbtMateriaInscripta.isSelected() && estaInscripto) {
+                modelo.addRow(new Object[]{materia.getIdMateria(), materia.getNombre(), materia.getAnio()});
+            } else if (rbtMateriaNoInscrita.isSelected() && !estaInscripto) {
+                modelo.addRow(new Object[]{materia.getIdMateria(), materia.getNombre(), materia.getAnio()});
+            }
         }
     }
-    private void cmbAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAlumnoActionPerformed
-
-    }//GEN-LAST:event_cmbAlumnoActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void btnInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInscribirActionPerformed
+    private void cmbAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAlumnoActionPerformed
+        cargarTablaMaterias();
+    }//GEN-LAST:event_cmbAlumnoActionPerformed
 
-        try {
-            //obtenemos atributos para crear Inscripcion
-            int indiceAlumno = cmbAlumno.getSelectedIndex();
-            int indiceMateria = cmbMateria.getSelectedIndex();
+    private void rbtMateriaInscriptaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtMateriaInscriptaActionPerformed
+        btnInscribir.setEnabled(false);
+        btnAnular.setEnabled(true);
+        cargarTablaMaterias();
+    }//GEN-LAST:event_rbtMateriaInscriptaActionPerformed
 
-            Alumno alumno = alumnos.get(indiceAlumno);
-            Materia materia = materias.get(indiceMateria);
-            int anioLectivo = Integer.parseInt(txtAnioLectivo.getText());
-            int cuatrimestre = Integer.parseInt(txtCuatrimestre.getText());
-
-            //si no selecciona alumno o materia
-            if (alumno == null || materia == null) {
-                JOptionPane.showMessageDialog(this, "Debe seleccionar un alumno y materia");
-                return;
-            }
-
-            //si escribe un cuatrimestre mal
-            if (cuatrimestre != 1 && cuatrimestre != 2) {
-                JOptionPane.showMessageDialog(this, "El cuatrimestre debe ser 1 o 2");
-                return;
-            }
-
-            //creamos inscripcion sin nota y asistencia 0
-            Inscripcion inscripcion = new Inscripcion(alumno, materia, anioLectivo, cuatrimestre, null, 0);
-
-            //agregamos inscripcion en la base de datos
-            inscripcionData.guardarInscripcion(inscripcion);
-
-        } catch (NumberFormatException e) {
-            //solo si escribe letras o double en año y cuatrimestre
-            JOptionPane.showMessageDialog(this, "Debe ingresar numeros enteros en año lectivo y cuatrimestre");
-        }
-
-    }//GEN-LAST:event_btnInscribirActionPerformed
-
-    private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
-
-        try {
-            // Validar que haya un alumno y una materia seleccionados
-            int indiceAlumno = cmbAlumno.getSelectedIndex();
-            int indiceMateria = cmbMateria.getSelectedIndex();
-
-            if (indiceAlumno == -1 || indiceMateria == -1) {
-                JOptionPane.showMessageDialog(this,"Debe seleccionar un alumno y una materia.");
-                return;
-            }
-
-            //Obtener el alumno y la materia seleccionados
-            Alumno alumno = alumnos.get(indiceAlumno);
-            Materia materia = materias.get(indiceMateria);
-
-            //Obtener año lectivo y cuatrimestre
-            int anioLectivo = Integer.parseInt(txtAnioLectivo.getText());
-            int cuatrimestre = Integer.parseInt(txtCuatrimestre.getText());
-
-            if (cuatrimestre != 1 && cuatrimestre != 2) {
-                JOptionPane.showMessageDialog(this,
-                        "El cuatrimestre debe ser 1 o 2.");
-                return;
-            }
-
-            //Buscar la inscripción exacta
-            Inscripcion inscripcion = inscripcionData.buscarInscripcionPorDatos(
-                    alumno.getIdAlumno(),
-                    materia.getIdMateria(),
-                    anioLectivo,
-                    cuatrimestre
-            );
-
-            if (inscripcion == null) {
-                JOptionPane.showMessageDialog(this,"No existe una inscripción con esos datos.");
-                return;
-            }
-
-            //Pedir confirmación antes de eliminar
-            int respuesta = JOptionPane.showConfirmDialog(
-                    this,
-                    "¿Está seguro de anular esta inscripción?\n"
-                    + "Alumno: " + alumno.getApellido() + " " + alumno.getNombre()
-                    + "\nMateria: " + materia.getNombre()
-                    + "\nAño lectivo: " + anioLectivo
-                    + "\nCuatrimestre: " + cuatrimestre,
-                    "Confirmar anulación",
-                    JOptionPane.YES_NO_OPTION
-            );
-
-            //Eliminar solamente si confirma
-            if (respuesta == JOptionPane.YES_OPTION) {
-                inscripcionData.eliminarInscripcion(
-                        inscripcion.getIdInscripcion()
-                );
-            }
-
-        } catch (NumberFormatException e) {JOptionPane.showMessageDialog(this,"El año lectivo y el cuatrimestre deben ser números enteros.");
-        }
-    }//GEN-LAST:event_btnAnularActionPerformed
-
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        
-    }//GEN-LAST:event_btnBuscarActionPerformed
+    private void rbtMateriaNoInscritaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtMateriaNoInscritaActionPerformed
+        btnInscribir.setEnabled(true);
+        //desabilito boton anular
+        btnAnular.setEnabled(false);
+        cargarTablaMaterias();
+    }//GEN-LAST:event_rbtMateriaNoInscritaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnular;
-    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnInscribir;
     private javax.swing.JButton btnSalir;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cmbAlumno;
-    private javax.swing.JComboBox<String> cmbMateria;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblAlumno;
-    private javax.swing.JLabel lblAnioLectivo;
-    private javax.swing.JLabel lblCuatrimestre;
-    private javax.swing.JLabel lblMateria;
+    private javax.swing.JLabel lblListadoMaterias;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JTextField txtAnioLectivo;
-    private javax.swing.JTextField txtCuatrimestre;
+    private javax.swing.JRadioButton rbtMateriaInscripta;
+    private javax.swing.JRadioButton rbtMateriaNoInscrita;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -43,7 +43,7 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         lblTitulo.setText("Formulario de Materia");
 
         lblCodigo.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
-        lblCodigo.setText("Codigo:");
+        lblCodigo.setText("Codigo ID:");
 
         lblNombre.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         lblNombre.setText("Nombre:");

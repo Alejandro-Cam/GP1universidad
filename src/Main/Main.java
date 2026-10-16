@@ -2,7 +2,9 @@
 package Main;
 
 import Entidades.Alumno;
+import Entidades.Materia;
 import Persistencia.AlumnoData;
+import Persistencia.MateriaData;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -49,6 +51,29 @@ public class Main {
             System.out.println(alumno);
         }
         
+        
+        
+        // PRUEBA DE MATERIAS
+        
+        MateriaData materiaData = new MateriaData();
+        
+        Materia m = new Materia("Test Laboratorio", 2000, true);
+        
+        //Guardar
+        materiaData.guardarMateria(m);
+
+        //MODIFICAR
+        Materia mod = materiaData.buscarMateriaPorNombre("Test Laboratorio");
+        //cambio el año
+        mod.setAnio(1980);
+        
+        materiaData.modificarMateria(mod);
+        System.out.println("materia modificada: " + mod.toString());
+        
+        //ELIMINADO LOGICO
+        materiaData.eliminarMateria(10);
+        
     } 
     */
+    
 }

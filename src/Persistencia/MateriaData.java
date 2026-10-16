@@ -138,12 +138,13 @@ public class MateriaData {
 
     // UPDATE - Modificar Materia
     public void modificarMateria(Materia m) {
-        String sql = "UPDATE materia SET nombre = ?, anio = ? WHERE idMateria = ?";
+        String sql = "UPDATE materia SET nombre = ?, anio = ?, estado = ? WHERE idMateria = ?";
         try {
             PreparedStatement ps = conexion.prepareStatement(sql);
             ps.setString(1, m.getNombre());
             ps.setInt(2, m.getAnio());
-            ps.setInt(3, m.getIdMateria());
+            ps.setBoolean(3, m.isEstado());
+            ps.setInt(4, m.getIdMateria());
 
             int exito = ps.executeUpdate();
             if (exito == 1) {

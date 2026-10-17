@@ -11,16 +11,16 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class VistaInscripciones extends javax.swing.JInternalFrame {
-    
+
     private AlumnoData alumnoData;
     private MateriaData materiaData;
     private InscripcionData inscripcionData;
     private List<Alumno> alumnos;
     private List<Materia> materias;
-    
+
     public VistaInscripciones() {
         initComponents();
-        
+
         alumnoData = new AlumnoData();
         materiaData = new MateriaData();
         inscripcionData = new InscripcionData();
@@ -30,9 +30,9 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
 
         //cargamos tabla al iniciar
         cargarTablaMaterias();
-        
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -104,9 +104,19 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
 
         btnInscribir.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnInscribir.setText("Inscribir");
+        btnInscribir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInscribirActionPerformed(evt);
+            }
+        });
 
         btnAnular.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnAnular.setText("Anular Inscripcion");
+        btnAnular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnularActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(rbtMateriaInscripta);
         rbtMateriaInscripta.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -215,7 +225,7 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
         if (indice == -1 || alumnos == null) {
             return;
         }
-        
+
         Alumno alumnoSeleccionado = alumnos.get(indice);
 
         //obtenemos todas las materias de la BD
@@ -267,6 +277,106 @@ public class VistaInscripciones extends javax.swing.JInternalFrame {
         btnAnular.setEnabled(false);
         cargarTablaMaterias();
     }//GEN-LAST:event_rbtMateriaNoInscritaActionPerformed
+
+    private void btnInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInscribirActionPerformed
+        //Indice alumno seleccionado en el comboBox
+        int indiceAlumno = cmbAlumno.getSelectedIndex();
+        //fila seleccionada en la tabla
+        int fila = jTable1.getSelectedRow();
+
+        //comprobar si no hay seleccion en el comboBox y en la tabla
+        if (indiceAlumno == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un alumno");
+            return;
+        }
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una materia en la tabla");
+            return;
+        }
+
+        //obtengo alumno
+        Alumno alumno = alumnos.get(indiceAlumno);
+
+        //obtengo id de la materia seleccionada
+        int idMateria = (Integer) jTable1.getValueAt(fila, 0);
+        //busco la materia por id
+        Materia materia = materiaData.buscarMateria(idMateria);
+
+        if (materia == null) {
+            JOptionPane.showMessageDialog(this, "Materia no encontrada");
+            return;
+        }
+
+        int anioMateria = materia.getAnio();
+
+        //validacion si ya esta inscripto
+        Inscripcion existente = inscripcionData.buscarInscripcionPorDatos(
+                alumno.getIdAlumno(), idMateria, anioMateria);
+
+        if (existente != null) {
+            JOptionPane.showMessageDialog(this, "El alumno ya se encuentra inscripto en esta materia");
+            return;
+        }
+
+        //creo una inscripcion y la guardo en la BD
+        Inscripcion nueva = new Inscripcion(
+                alumno,
+                materia,
+                anioMateria,
+                null, 0);
+
+        inscripcionData.guardarInscripcion(nueva);
+
+        //actualiza tabla
+        rbtMateriaInscripta.setSelected(true);
+        btnInscribir.setEnabled(false);
+        btnAnular.setEnabled(true);
+        cargarTablaMaterias();
+    }//GEN-LAST:event_btnInscribirActionPerformed
+
+    private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
+        int indiceAlumno = cmbAlumno.getSelectedIndex();
+        int fila = jTable1.getSelectedRow();
+
+        if (indiceAlumno == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un alumno.");
+            return;
+        }
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una materia de la tabla.");
+            return;
+        }
+
+        Alumno alumno = alumnos.get(indiceAlumno);
+        int idMateria = (Integer) jTable1.getValueAt(fila, 0);
+
+        // Buscar el ID de la inscripción para ese alumno y materia
+        List<Inscripcion> inscripciones = inscripcionData.listarInscripcionesPorAlumno(alumno.getIdAlumno());
+        Inscripcion inscripcionEncontrada = null;
+
+        for (Inscripcion ins : inscripciones) {
+            if (ins.getMateria().getIdMateria() == idMateria) {
+                inscripcionEncontrada = ins;
+                break;
+            }
+        }
+
+        if (inscripcionEncontrada != null) {
+            int confirmacion = JOptionPane.showConfirmDialog(
+                    this,
+                    "¿Está seguro de anular la inscripción a esta materia?",
+                    "Confirmar Anulación",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                inscripcionData.eliminarInscripcion(inscripcionEncontrada.getIdInscripcion());
+                cargarTablaMaterias();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontró el registro de la inscripción.");
+        }
+    }//GEN-LAST:event_btnAnularActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

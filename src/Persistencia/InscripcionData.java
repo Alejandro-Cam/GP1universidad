@@ -26,8 +26,8 @@ public class InscripcionData {
     public void guardarInscripcion(Inscripcion i) {
 
         String sql = "INSERT INTO inscripcion "
-                + "(idAlumno, idMateria, anioLectivo, cuatrimestre, nota, asistencia) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+                + "(idAlumno, idMateria, anioLectivo, nota, asistencia) "
+                + "VALUES (?, ?, ?, ?, ?)";
 
         try {
 
@@ -39,15 +39,14 @@ public class InscripcionData {
             ps.setInt(1, i.getAlumno().getIdAlumno());
             ps.setInt(2, i.getMateria().getIdMateria());
             ps.setInt(3, i.getAnioLectivo());
-            ps.setInt(4, i.getCuatrimestre());
 
             if (i.getNota() == null) {
-                ps.setNull(5, java.sql.Types.DECIMAL);
+                ps.setNull(4, java.sql.Types.DECIMAL);
             } else {
-                ps.setDouble(5, i.getNota());
+                ps.setDouble(4, i.getNota());
             }
 
-            ps.setInt(6, i.getAsistencia());
+            ps.setInt(5, i.getAsistencia());
 
             ps.executeUpdate();
 
@@ -104,7 +103,6 @@ public class InscripcionData {
                         alumno,
                         materia,
                         rs.getInt("anioLectivo"),
-                        rs.getInt("cuatrimestre"),
                         nota,
                         rs.getInt("asistencia")
                 );
@@ -123,41 +121,42 @@ public class InscripcionData {
 
         return inscripcion;
     }
-    
+
     //SELEC buscar inscripciones por datos
     public Inscripcion buscarInscripcionPorDatos(
-            int idAlumno, int idMateria,
-            int anioLectivo, int cuatrimestre) {
+            int idAlumno, int idMateria, int anioLectivo) {
 
         Inscripcion encontrada = null;
 
-        String sql = "SELECT * FROM inscripcion "
+        String sql = "SELECT idInscripcion FROM inscripcion "
                 + "WHERE idAlumno = ? AND idMateria = ? "
-                + "AND anioLectivo = ? AND cuatrimestre = ?";
+                + "AND anioLectivo = ?";
 
         try {
             PreparedStatement ps = conexion.prepareStatement(sql);
+
             ps.setInt(1, idAlumno);
             ps.setInt(2, idMateria);
             ps.setInt(3, anioLectivo);
-            ps.setInt(4, cuatrimestre);
 
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                encontrada = buscarInscripcion(rs.getInt("idInscripcion"));
+                encontrada = buscarInscripcion(
+                        rs.getInt("idInscripcion"));
             }
 
+            rs.close();
             ps.close();
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,
+            JOptionPane.showMessageDialog(
+                    null,
                     "Error al buscar inscripción: " + ex.getMessage());
         }
 
         return encontrada;
     }
-
 
     // SELECT - Listar todas las inscripciones
     public List<Inscripcion> listarInscripciones() {
@@ -192,7 +191,6 @@ public class InscripcionData {
                         alumno,
                         materia,
                         rs.getInt("anioLectivo"),
-                        rs.getInt("cuatrimestre"),
                         nota,
                         rs.getInt("asistencia")
                 );
@@ -250,7 +248,6 @@ public class InscripcionData {
                         alumno,
                         materia,
                         rs.getInt("anioLectivo"),
-                        rs.getInt("cuatrimestre"),
                         nota,
                         rs.getInt("asistencia")
                 );
@@ -308,7 +305,6 @@ public class InscripcionData {
                         alumno,
                         materia,
                         rs.getInt("anioLectivo"),
-                        rs.getInt("cuatrimestre"),
                         nota,
                         rs.getInt("asistencia")
                 );
@@ -337,7 +333,6 @@ public class InscripcionData {
                 + "idAlumno = ?, "
                 + "idMateria = ?, "
                 + "anioLectivo = ?, "
-                + "cuatrimestre = ?, "
                 + "nota = ?, "
                 + "asistencia = ? "
                 + "WHERE idInscripcion = ?";
@@ -349,16 +344,15 @@ public class InscripcionData {
             ps.setInt(1, i.getAlumno().getIdAlumno());
             ps.setInt(2, i.getMateria().getIdMateria());
             ps.setInt(3, i.getAnioLectivo());
-            ps.setInt(4, i.getCuatrimestre());
 
             if (i.getNota() == null) {
-                ps.setNull(5, java.sql.Types.DECIMAL);
+                ps.setNull(4, java.sql.Types.DECIMAL);
             } else {
-                ps.setDouble(5, i.getNota());
+                ps.setDouble(4, i.getNota());
             }
 
-            ps.setInt(6, i.getAsistencia());
-            ps.setInt(7, i.getIdInscripcion());
+            ps.setInt(5, i.getAsistencia());
+            ps.setInt(6, i.getIdInscripcion());
 
             int exito = ps.executeUpdate();
 

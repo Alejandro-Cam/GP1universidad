@@ -6,40 +6,36 @@ public class Inscripcion {
     private Alumno alumno;
     private Materia materia;
     private int anioLectivo;
-    private int cuatrimestre;
     private Double nota;
     private int asistencia;
 
     // Constructor completo
     public Inscripcion(int idInscripcion, Alumno alumno, Materia materia,
-            int anioLectivo, int cuatrimestre, Double nota, int asistencia) {
+            int anioLectivo, Double nota, int asistencia) {
 
         this.idInscripcion = idInscripcion;
         this.alumno = alumno;
         this.materia = materia;
         this.anioLectivo = anioLectivo;
-        this.cuatrimestre = cuatrimestre;
         this.nota = nota;
         this.asistencia = asistencia;
     }
 
     // Constructor sin ID
     public Inscripcion(Alumno alumno, Materia materia,
-            int anioLectivo, int cuatrimestre, Double nota, int asistencia) {
+            int anioLectivo, Double nota, int asistencia) {
 
         this.alumno = alumno;
         this.materia = materia;
         this.anioLectivo = anioLectivo;
-        this.cuatrimestre = cuatrimestre;
         this.nota = nota;
         this.asistencia = asistencia;
     }
 
-    public Inscripcion(Alumno alumno, Materia materia, int anioLectivo, int cuatrimestre, int asistencia) {
+    public Inscripcion(Alumno alumno, Materia materia, int anioLectivo, int asistencia) {
         this.alumno = alumno;
         this.materia = materia;
         this.anioLectivo = anioLectivo;
-        this.cuatrimestre = cuatrimestre;
         this.asistencia = asistencia;
     }
     
@@ -77,14 +73,6 @@ public class Inscripcion {
         this.anioLectivo = anioLectivo;
     }
 
-    public int getCuatrimestre() {
-        return cuatrimestre;
-    }
-
-    public void setCuatrimestre(int cuatrimestre) {
-        this.cuatrimestre = cuatrimestre;
-    }
-
     public Double getNota() {
         return nota;
     }
@@ -108,7 +96,6 @@ public class Inscripcion {
                 + ", alumno=" + alumno
                 + ", materia=" + materia
                 + ", anioLectivo=" + anioLectivo
-                + ", cuatrimestre=" + cuatrimestre
                 + ", nota=" + nota
                 + ", asistencia=" + asistencia
                 + '}';
